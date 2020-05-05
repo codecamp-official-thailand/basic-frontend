@@ -15,8 +15,8 @@ function LoginForm(props) {
 
     const result = await axios.post("/users/login", body);
 
-    const token = localStorage.setItem("ACCESS_TOKEN", result.data.token);
-    const user = jwtDecode(token);
+    localStorage.setItem("ACCESS_TOKEN", result.data.token);
+    const user = jwtDecode(result.data.token);
     setUserInfo(user);
     setIsLogin(true);
   };
