@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "../config/axios";
 import "./App.css";
 import LoginForm from "./LoginForm";
+import jwtDecode from "jwt-decode";
 
 function App() {
   const [students, setStudents] = useState([]);
@@ -9,9 +10,16 @@ function App() {
   const [ageValue, setAgeValue] = useState("");
   const [numberValue, setNumberValue] = useState("");
   const [isLogin, setIsLogin] = useState(false);
+  const [userInfo, setUserInfo] = useState({});
 
   useEffect(() => {
     fetchData();
+    const token = localStorage.getItem("ACCESS_TOKEN");
+    if (token) {
+      const user = jwtDecode(token);
+      setUserInfo(user);
+      setIsLogin(true);
+    }
   }, []);
 
   const fetchData = async () => {
@@ -50,7 +58,11 @@ function App() {
       className="App"
       style={{ display: "flex", alignItems: "center", flexDirection: "column" }}
     >
-      <LoginForm isLogin={isLogin} setIsLogin={setIsLogin} />
+      <LoginForm
+        userInfo={userInfo}
+        isLogin={isLogin}
+        setIsLogin={setIsLogin}
+      />
       <h1>รายชื่อนักเรียน</h1>
       {students.map((student) => (
         <div

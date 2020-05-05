@@ -20,7 +20,7 @@ function LoginForm(props) {
     setIsLogin(true);
   };
 
-  const logout = () => { 
+  const logout = () => {
     localStorage.removeItem("ACCESS_TOKEN");
     setIsLogin(false);
   };
@@ -30,7 +30,10 @@ function LoginForm(props) {
       style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
     >
       {isLogin ? (
-        <button onClick={logout}>Logout</button>
+        <>
+          <h1>ยินดีตอนรับคุณ {props.userInfo.name}</h1>
+          <button onClick={logout}>Logout</button>
+        </>
       ) : (
         <>
           <div>
