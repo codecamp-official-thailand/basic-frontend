@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
@@ -8,6 +8,10 @@ function App() {
   const [ageValue, setAgeValue] = useState("");
   const [numberValue, setNumberValue] = useState("");
 
+  useEffect(() => {
+    fetchData();
+  }, [])
+
   const fetchData = async () => {
     const result = await axios.get("http://localhost:8000/students");
     console.log(result.data);
@@ -15,14 +19,17 @@ function App() {
   };
 
   const ยิงpostman = async () => {
+
     const body = {
       name: nameValue,
       age: ageValue,
       number: numberValue,
     };
+
     await axios.post("http://localhost:8000/students", body);
     alert("ส่งข้อมูลไป Backend เรียบร้อยแล้ว");
     fetchData();
+
   };
 
   const deleteStudent = async (id) => {
@@ -36,7 +43,6 @@ function App() {
       className="App"
       style={{ display: "flex", alignItems: "center", flexDirection: "column" }}
     >
-      <button onClick={fetchData}>Fetch data</button>
       {students.map((student) => (
         <div
           style={{ margin: "5px", width: "50%", border: "1px solid #000000" }}
