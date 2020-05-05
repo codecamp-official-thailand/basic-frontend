@@ -5,7 +5,7 @@ function LoginForm(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const { setIsLogin, isLogin } = props;
+  const { setIsLogin, isLogin, userInfo, setUserInfo } = props;
 
   const login = async () => {
     const body = {
@@ -15,13 +15,15 @@ function LoginForm(props) {
 
     const result = await axios.post("/users/login", body);
 
-    localStorage.setItem("ACCESS_TOKEN", result.data.token);
-
+    const token = localStorage.setItem("ACCESS_TOKEN", result.data.token);
+    const user = jwtDecode(token);
+    setUserInfo(user);
     setIsLogin(true);
   };
 
   const logout = () => {
     localStorage.removeItem("ACCESS_TOKEN");
+    setUserInfo({});
     setIsLogin(false);
   };
 
@@ -31,7 +33,7 @@ function LoginForm(props) {
     >
       {isLogin ? (
         <>
-          <h1>ยินดีตอนรับคุณ {props.userInfo.name}</h1>
+          <h1>ยินดีตอนรับคุณ {userInfo.name}</h1>
           <button onClick={logout}>Logout</button>
         </>
       ) : (

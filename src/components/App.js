@@ -60,6 +60,7 @@ function App() {
     >
       <LoginForm
         userInfo={userInfo}
+        setUserInfo={setUserInfo}
         isLogin={isLogin}
         setIsLogin={setIsLogin}
       />
